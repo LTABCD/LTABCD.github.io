@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<h1>管理员登录界面</h1>
+		<form>
+			用户名：<input type="text" name="user"><br/>
+			密码：<input type="password" name="pass"><br/>
+			<input type="button" value="提交"><br/>
+			<input type="reset" value="重新填写">
+		</form>
+		<script type="text/javascript">
+			var inputList=document.querySelectorAll('input');
+			var submits=inputList[2];
+			submits.onclick=function(){
+				var user=inputList[0].value;
+				var pass=inputList[1].value;
+				var xhr=new XMLHttpRequest();
+				var url='login.php';
+				xhr.open('POST',url,true);
+				xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+				xhr.send('user='+user+'&pass='+pass);
+				xhr.onreadystatechange=function(){
+					if(xhr.readyState==4){
+						if(xhr.status==200){
+							var text=JSON.parse(xhr.responseText);
+							if(text.error!='登录成功'){
+								var h5=document.createElement('h5');
+								h5.style.color="red";
+								h5.innerHTML=text;
+								document.body.appendChild(h5);
+							}else{
+								var date=new Date();
+								var time=date.getDate();
+								date.setDate(time+7)
+								document.cookie='{"name"="'+user+'"};expires='+date.toUTCString() ;
+								window.location.href='admin.html';
+							}
+						}else{
+							console.log('404');
+						}
+					}
+				}
+			}
+		</script>
+	</body>
+</html>
+ 
