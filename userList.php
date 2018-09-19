@@ -24,10 +24,7 @@
 			}else{
 				$pageNow=$_GET['pageNow'];
 			}
-			if(!empty($_GET['flag'])){
-				$id=$_GET['id'];
-				$empservice->deleteData($id);
-			}
+			
 			$pageNum=10;
 			$count=0;
 			$start=($pageNow-1)*$pageNum;
@@ -46,7 +43,7 @@
 						for($i=0;$i<sizeof($val);$i++){
 							echo "<td>".$val[$i]."</td>";
 						}
-						echo "<td><a href='userList.php?flag=true&pageNow=$pageNow&id=$val[0]' onclick='return confirm("."`确定删除$val[1]吗？`".")?true:false'>删除用户</a></td><td><a href='javascript'>添加用户</a></td>";
+						echo "<td><a href='empProcess.php?flag=true&pageNow=$pageNow&id=$val[0]' onclick='return confirm("."`确定删除$val[1]吗？`".")?true:false'>删除用户</a></td><td><a href='updateUser.php?update=true&pageNow=$pageNow&id=$val[0]'>修改用户</a></td>";
 					echo '</tr>';
 				}
 			echo '</table>';
@@ -54,7 +51,7 @@
 			$page=ceil($count/$pageNum);
 			$pageNext=$pageNow+1;
 			$pagePrev=$pageNow-1;
-			$pageLast=floor($count/10)+$count%10;
+			$pageLast=floor($count/10)+1;
 			if($pageNow>=2){
 				echo "<a href='userList.php?pageNow=1'>首页</a>&nbsp;&nbsp;&nbsp;&nbsp;";
 				echo "<a href='userList.php?pageNow=$pagePrev'>上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;";

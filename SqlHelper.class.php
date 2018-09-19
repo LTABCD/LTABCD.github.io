@@ -10,19 +10,19 @@
 		public function __construct(){
 			$this->conn=new mysqli($this->host,$this->username,$this->password,$this->dbname);
 			if($this->conn->connect_error){
-				die('连接失败'.$this->conn->error());
+				die('连接失败'.$this->conn->error);
 			}
 		}
 		
 		//执行dql语句
 		public function execute_dql($sql){
-			$res=$this->conn->query($sql) or die($this->conn->error());
+			$res=$this->conn->query($sql) or die($this->conn->error);
 			return $res;
 		}
 		
 		//执行dql语句，返回数组
 		public function execute_dql2($sql){
-			$res=$this->conn->query($sql) or die($this->conn->error());
+			$res=$this->conn->query($sql) or die($this->conn->error);
 			$arr=array();
 			$i=0;
 			$j=0;
@@ -38,7 +38,7 @@
 		}
 		//执行dml语句
 		public function execute_dml($sql){
-			$b=$this->conn->query($sql) or die($this->conn->error());
+			$b=$this->conn->query($sql) or die($this->conn->error);
 			if(!$b){
 				return 0;
 			}else{
