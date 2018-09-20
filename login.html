@@ -9,13 +9,43 @@
 		<form>
 			用户名：<input type="text" name="user"><br/>
 			密码：<input type="password" name="pass"><br/>
-			<input type="button" value="提交"><br/>
+			<input type="checkbox" >是否保存用户名在本地<br/>
+			<input type="button" value="提交">
 			<input type="reset" value="重新填写">
 		</form>
 		<script type="text/javascript">
 			var inputList=document.querySelectorAll('input');
-			var submits=inputList[2];
+			var submits=inputList[3];
+			
+			function getcookie(name){
+				var arr=document.cookie.split(';');
+				var reg=/^\s*|\s*$/g;
+				var arr1=[];
+				for(var i=0;i<arr.length;i++){
+					arr1[i]=arr[i].replace(reg,'').split('=');
+				}
+				for(var i=0;i<arr1.length;i++){
+					if(arr1[i].indexOf(name)!=-1){
+						return arr1[i][1];
+					}
+				}
+				return '';
+			}
+			
+			if(document.cookie){
+				var result1=getcookie('user')
+				inputList[0].value=result1;
+			}
 			submits.onclick=function(){
+				if(inputList[2].checked==true){
+					var date=new Date();
+					date.setDate(date.getDate()+1);
+					document.cookie='user='+inputList[0].value+';expires='+date.toUTCString();
+				}else{
+					var date=new Date();
+					date.setDate(date.getDate()-1);
+					document.cookie='user='+inputList[0].value+';expires='+date.toUTCString();
+				}
 				var user=inputList[0].value;
 				var pass=inputList[1].value;
 				var xhr=new XMLHttpRequest();
@@ -30,13 +60,12 @@
 							if(text.error!='登录成功'){
 								var h5=document.createElement('h5');
 								h5.style.color="red";
-								h5.innerHTML=text;
+								h5.innerHTML=text.error;
 								document.body.appendChild(h5);
 							}else{
 								var date=new Date();
-								var time=date.getDate();
-								date.setDate(time+7)
-								document.cookie='{"name"="'+user+'"};expires='+date.toUTCString() ;
+								date.setDate(date.getDate()+1);
+								document.cookie='username='+inputList[0].value+';expires='+date.toUTCString();
 								window.location.href='admin.html';
 							}
 						}else{

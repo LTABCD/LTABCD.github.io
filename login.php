@@ -32,7 +32,7 @@
 			$arr['data']=$results;
 		}
 		echo json_encode($arr);
-		exit();
+	 	exit();
 	}
 	$arr['error']='用户名或密码错误';
 	echo json_encode($arr);
